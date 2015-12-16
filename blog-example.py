@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # coding: UTF-8
+# from: http://machinelearningmastery.com/naive-bayes-classifier-scratch-python/
 
 import csv
 import random
