@@ -26,7 +26,9 @@ class classifier():
             if type(i) == instance:
                 self.add_instance( i )
             else:
-                self.add_instance( i.pop(0), *i )
+                l = i[0]
+                a = i[1:]
+                self.add_instance( l, *a )
 
     def add_instance(self, instance_or_label, *attr):
         if type(instance_or_label) == instance:
