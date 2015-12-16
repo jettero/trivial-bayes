@@ -18,7 +18,7 @@ class classifier():
             if len(i.label) > maxl:
                 maxl = len(i.label)
         for i in self.corpus:
-            ret += "label: %-*s  attr: %s\n" % (maxl, i.label, i.attr)
+            ret += "  label: %-*s  attr: %s\n" % (maxl, i.label, i.attr)
         return ret
 
     def add_instances(self, *instances):
