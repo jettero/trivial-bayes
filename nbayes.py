@@ -9,8 +9,18 @@ class classifier():
     def __init__(self):
         self.corpus = []
 
+    def __str__(self):
+        ret = "corpus:\n"
+        maxl = 0
+        for i in self.corpus:
+            if len(i.label) > maxl:
+                maxl = len(i.label)
+        for i in self.corpus:
+            ret += "label: %-*s  attr: %s\n" % (maxl, i.label, i.attr)
+        return ret
+
     def add_instance(self, label='unknown', *attr):
-        corpus.append( instance(label, attr) )
+        self.corpus.append( instance(label, *attr) )
 
     def prob_label(self,label):
         if not self.corpus:
