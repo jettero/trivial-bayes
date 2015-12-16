@@ -68,8 +68,13 @@ class classifier():
                 ic += 1
                 if not set(attr) - set(i.attr): 
                     ac += 1
+        if ic == 0:
+            return 0
         return float(ac) / ic
 
     def prob_label_given_attr(self, label, *attr):
         # P(A|B) = P(B|A)*P(A) / P(B)
-        return (self.prob_attr_given_label(label,*attr) * self.prob_label(label)) / self.prob_attr(*attr)
+        p_B = self.prob_attr(*attr)
+        if p_B == 0:
+            return 0
+        return (self.prob_attr_given_label(label,*attr) * self.prob_label(label)) / p_B
