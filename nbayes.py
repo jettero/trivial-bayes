@@ -61,12 +61,14 @@ class classifier():
         return reduce(lambda a,b: a*b, p)
 
     def prob_attr_given_label(self, label, *attr):
-        c = 0
+        ic = 0
+        ac = 0
         for i in self.corpus:
             if i.label == label:
+                ic += 1
                 if not set(attr) - set(i.attr): 
-                    c += 1
-        return float(c) / len( self.corpus )
+                    ac += 1
+        return float(ac) / ic
 
     def prob_label_given_attr(self, label, *attr):
         # P(A|B) = P(B|A)*P(A) / P(B)
