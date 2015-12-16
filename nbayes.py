@@ -3,11 +3,13 @@
 class instance():
     def __init__(self, label, *attr):
         self.label = label
-        self.attr  = attr
+        self.attr  = set(attr)
 
 class classifier():
-    def __init__(self):
+    def __init__(self, *instances):
         self.corpus = []
+        if instances:
+            self.add_instances(*instances)
 
     def __str__(self):
         ret = "corpus:\n"
@@ -19,8 +21,19 @@ class classifier():
             ret += "label: %-*s  attr: %s\n" % (maxl, i.label, i.attr)
         return ret
 
-    def add_instance(self, label='unknown', *attr):
-        self.corpus.append( instance(label, *attr) )
+    def add_instances(self, *instances):
+        for i in instances:
+            if type(i) == instance:
+                self.add_instance( i )
+            else:
+                self.add_instance( i.pop(0), *i )
+
+    def add_instance(self, instance_or_label, *attr):
+        if type(instance_or_label) == instance:
+            self.corpus.append( instance_or_label )
+
+        else:
+            self.corpus.append( instance(instance_or_label, *attr) )
 
     def prob_label(self,label):
         if not self.corpus:
