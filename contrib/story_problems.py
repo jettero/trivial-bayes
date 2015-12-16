@@ -12,7 +12,7 @@ def Q1():
     print "probability of girl P_A1=%f" % P_A1
     print "probability of boy  P_A2=%f" % P_A2
     print "probability of trousers given girl P_BgA1=%f" % P_BgA1
-    print "probability of trousers given boyl P_BgA2=%f" % P_BgA2
+    print "probability of trousers given boy  P_BgA2=%f" % P_BgA2
     print 
     print "[q1.a] Probability sillouette is a girl given trousers:"
     print "  P_A1gB = (P_BgA1*P_A1) / ( (P_BgA1*P_A1) + (P_BgA2*P_A2) ) = %f" % P_A1gB
