@@ -1,13 +1,11 @@
 #!/usr/bin/env python
 
-import functools
-
-class instance(object):
+class Instance(object):
     def __init__(self, label, *attr):
         self.label = label
         self.attr  = set(attr)
 
-class classifier(object):
+class Classifier(object):
     def __init__(self, *instances):
         self.corpus = []
         if instances:
@@ -25,54 +23,49 @@ class classifier(object):
 
     def add_instances(self, *instances):
         for i in instances:
-            if type(i) == instance:
-                self.add_instance( i )
+            if isinstance(i, Instance):
+                self.add_instance(i)
             else:
-                l = i[0]
-                a = i[1:]
-                self.add_instance( l, *a )
+                self.add_instance(*i)
 
     def add_instance(self, instance_or_label, *attr):
-        if type(instance_or_label) == instance:
+        if isinstance(instance_or_label, Instance):
             self.corpus.append( instance_or_label )
 
         else:
-            self.corpus.append( instance(instance_or_label, *attr) )
+            self.corpus.append( Instance(instance_or_label, *attr) )
 
     def prob_label(self,label): # P(A)
         if not self.corpus:
             return 0
 
-        c = 0
+        c = 0.0
         for i in self.corpus:
             if i.label == label:
-                c += 1
-        return float(c) / len(self.corpus)
+                c += 1.0
+        return c / len(self.corpus)
 
     def prob_attr(self,*attr): # P(B)
         if not self.corpus:
             return 0
 
-        p = []
-        for a in attr:
-            c = 0
-            for i in self.corpus:
-                if a in i.attr:
-                    c += 1
-            p.append( float(c) / len(self.corpus) )
-        return functools.reduce(lambda a,b: a*b, p)
+        c = 0.0
+        for i in self.corpus:
+            if i.attr.issuperset(attr):
+                c += 1.0
+        return c / len(self.corpus)
 
     def prob_attr_given_label(self, label, *attr):  # P(B|A) aka P(attr|label)
         ic = 0
-        ac = 0
+        ac = 0.0
         for i in self.corpus:
             if i.label == label:
                 ic += 1
-                if not set(attr) - set(i.attr): 
-                    ac += 1
+                if i.attr.issuperset(attr):
+                    ac += 1.0
         if ic == 0:
             return 0
-        return float(ac) / ic
+        return ac / ic
 
     def prob_label_given_attr(self, label, *attr): # P(A|B) aka P(label|attr)
         p_B = self.prob_attr(*attr)                # aka Bayes: P(A|B) = P(B|A)*P(A) / P(B)

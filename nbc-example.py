@@ -17,7 +17,7 @@ the probability she was wearing trousers [q2]?
 
 """)
 
-q1 = nbayes.classifier(*data)
+q1 = nbayes.Classifier(*data)
 
 print('Q1', q1)
 print("prob girl: {:f} ; prob boy: {:f}"      .format(q1.prob_label('girl'), q1.prob_label('boy')))
@@ -27,7 +27,7 @@ print("probability girl given trousers: {:f}" .format(q1.prob_label_given_attr('
 print("probability boy  given trousers: {:f}" .format(q1.prob_label_given_attr('boy',  'trousers')))
 print("")
 
-q2 = nbayes.classifier(*[ a[::-1] for a in data ])
+q2 = nbayes.Classifier(*[ a[::-1] for a in data ])
 print('Q2', q2)
 print("prob trousers: {:f} ; prob skirt: {:f}"  .format(q2.prob_label('trousers'), q2.prob_label('skirt')))
 print("prob girl given trousers: {:f}"          .format(q2.prob_attr_given_label('trousers', 'girl')))
