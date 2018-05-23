@@ -27,10 +27,18 @@ print("probability girl given trousers: {:f}" .format(q1.prob_label_given_attr('
 print("probability boy  given trousers: {:f}" .format(q1.prob_label_given_attr('boy',  'trousers')))
 print("")
 
+print("Q2:")
+print("prob trousers: {:f} ; prob skirt: {:f}"  .format(q1.prob_attr('trousers'), q1.prob_attr('skirt')))
+print("prob girl given trousers: {:f}"          .format(q1.prob_label_given_attr('girl', 'trousers')))
+print("prob boy  given trousers: {:f}"          .format(q1.prob_label_given_attr('boy',  'trousers' )))
+print("probability trousers given girl: {:f}"   .format(q1.prob_attr_given_label('girl', 'trousers')))
+print("")
+
 q2 = nbayes.Classifier(*[ a[::-1] for a in data ])
-print('Q2', q2)
+print("Alternate Q2 (reversed data)", q2)
 print("prob trousers: {:f} ; prob skirt: {:f}"  .format(q2.prob_label('trousers'), q2.prob_label('skirt')))
 print("prob girl given trousers: {:f}"          .format(q2.prob_attr_given_label('trousers', 'girl')))
 print("prob boy  given trousers: {:f}"          .format(q2.prob_attr_given_label('trousers', 'boy' )))
 print("probability trousers given girl: {:f}"   .format(q2.prob_label_given_attr('trousers', 'girl')))
 print("")
+
