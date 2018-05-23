@@ -3,19 +3,7 @@
 
 import nbayes
 
-data = [
-  [ 'boy', 'trousers' ],
-  [ 'boy', 'trousers' ],
-  [ 'boy', 'trousers' ],
-  [ 'boy', 'trousers' ],
-  [ 'boy', 'trousers' ],
-  [ 'boy', 'trousers' ],
-
-  [ 'girl', 'skirt' ],
-  [ 'girl', 'skirt' ],
-  [ 'girl', 'trousers' ],
-  [ 'girl', 'trousers' ],
-]
+data = [['boy', 'trousers']]*6 + [['girl','skirt']]*2 + [['girl','trousers']]*2
 
 print """
 There is a population of students, 60% boys, 40% girls, all wearing uniforms.
@@ -38,8 +26,7 @@ print "probability girl given trousers: %f" % nbc.prob_label_given_attr('girl', 
 print "probability boy  given trousers: %f" % nbc.prob_label_given_attr('boy',  'trousers')
 print
 
-atad = map(lambda a: a[::-1], data)
-nbc = nbayes.classifier(*atad)
+nbc = nbayes.classifier(*[ a[::-1] for a in data ])
 print nbc
 print "prob trousers: %f ; prob skirt: %f"  % (nbc.prob_label('trousers'), nbc.prob_label('skirt'))
 print "prob girl given trousers: %f"        % nbc.prob_attr_given_label('trousers', 'girl')
