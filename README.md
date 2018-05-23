@@ -2,6 +2,7 @@
 
 I'm just practicing my python — converted the little story problem I had solved
 in Perl into a classifier in Python, then re-solved the story problem with it.
+(I dropped my original Perl solution in the contrib folder.)
 
 Note that I called the class Classifier … that's not quite right, since it
 doesn't classify, it just computes.  I had a classifier in mind for the next
