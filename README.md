@@ -11,7 +11,7 @@ step, but lost track of what I was doing.
 This girl/boy trousers problem is really famous. If you look up anything about
 Bayes anywhere, you'll run into it eventually.
 
-# nbc-example.py — outputs this
+# trousers-example.py — outputs this
 
     There is a population of students, 60% boys, 40% girls, all wearing uniforms.
     The girls may choose either trousers or skirts (and do so on a 50/50 basis),
@@ -63,3 +63,18 @@ Bayes anywhere, you'll run into it eventually.
     prob girl given trousers: 0.250000
     prob boy  given trousers: 0.750000
     probability trousers given girl: 0.500000
+
+# cards-example.py — outputs this
+
+    Have someone draw a cards from a deck. They tell you it's a face card, what's the probability it's a king?
+
+    (You could totally do this without invoking Bayes, but you can use Bayes too and get the same thing.)
+
+
+    P(King)              = 0.0769 aka the prior probability
+    P(Face)              = 0.2308 aka the evidence
+    P(Face|King)         = 1.0000
+    P(Face|King)/P(Face) = 4.3333 aka the likelyhood ratio
+    P(King|Face)         = P(Face|King)/P(Face) * P(King) aka the posterior probability
+                         = 1.0000/0.2308 * 0.0769
+                         = 0.3333
