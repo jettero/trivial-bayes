@@ -66,7 +66,7 @@ Bayes anywhere, you'll run into it eventually.
 
 # cards-example.py — outputs this
 
-    Have someone draw a cards from a deck. They tell you it's a face card, what's
+    Have someone draw a card from a deck. They tell you it's a face card, what's
     the probability it's a king?
 
     (You could totally do this without invoking Bayes… Here's how you use Bayes.)

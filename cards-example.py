@@ -48,7 +48,7 @@ p_king_given_face = c.posterior('king','face') # P(H|E) = P(E|H)/P(E) * P(H)
 assert p_king_given_face == 1.0/3
 
 print('''
-Have someone draw a cards from a deck. They tell you it's a face card, what's
+Have someone draw a card from a deck. They tell you it's a face card, what's
 the probability it's a king?
 
 (You could totally do this without invoking Bayes… Here's how you use Bayes.)
