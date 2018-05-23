@@ -37,7 +37,7 @@ class classifier():
         else:
             self.corpus.append( instance(instance_or_label, *attr) )
 
-    def prob_label(self,label):
+    def prob_label(self,label): # P(A)
         if not self.corpus:
             return 0
 
@@ -47,7 +47,7 @@ class classifier():
                 c += 1
         return float(c) / len(self.corpus)
 
-    def prob_attr(self,*attr):
+    def prob_attr(self,*attr): # P(B)
         if not self.corpus:
             return 0
 
@@ -60,7 +60,7 @@ class classifier():
             p.append( float(c) / len(self.corpus) )
         return reduce(lambda a,b: a*b, p)
 
-    def prob_attr_given_label(self, label, *attr):
+    def prob_attr_given_label(self, label, *attr):  # P(B|A) aka P(attr|label)
         ic = 0
         ac = 0
         for i in self.corpus:
@@ -72,9 +72,8 @@ class classifier():
             return 0
         return float(ac) / ic
 
-    def prob_label_given_attr(self, label, *attr):
-        # P(A|B) = P(B|A)*P(A) / P(B)
-        p_B = self.prob_attr(*attr)
+    def prob_label_given_attr(self, label, *attr): # P(A|B) aka P(label|attr)
+        p_B = self.prob_attr(*attr)                # aka Bayes: P(A|B) = P(B|A)*P(A) / P(B)
         if p_B == 0:
             return 0
         return (self.prob_attr_given_label(label,*attr) * self.prob_label(label)) / p_B
