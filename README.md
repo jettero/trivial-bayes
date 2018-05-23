@@ -41,7 +41,13 @@ Bayes anywhere, you'll run into it eventually.
     probability girl given trousers: 0.250000
     probability boy  given trousers: 0.750000
 
-    Q2 corpus:
+    Q2:
+    prob trousers: 0.800000 ; prob skirt: 0.200000
+    prob girl given trousers: 0.250000
+    prob boy  given trousers: 0.750000
+    probability trousers given girl: 0.500000
+
+    Alternate Q2 (reversed data) corpus:
       label: trousers  attr: {'boy'}
       label: trousers  attr: {'boy'}
       label: trousers  attr: {'boy'}
