@@ -17,16 +17,16 @@ Note that I called the class Classifier … that's not quite right, since it doe
 
 
     corpus:
-      label: boy   attr: set(['trousers'])
-      label: boy   attr: set(['trousers'])
-      label: boy   attr: set(['trousers'])
-      label: boy   attr: set(['trousers'])
-      label: boy   attr: set(['trousers'])
-      label: boy   attr: set(['trousers'])
-      label: girl  attr: set(['skirt'])
-      label: girl  attr: set(['skirt'])
-      label: girl  attr: set(['trousers'])
-      label: girl  attr: set(['trousers'])
+      label: boy   attr: {'trousers'}
+      label: boy   attr: {'trousers'}
+      label: boy   attr: {'trousers'}
+      label: boy   attr: {'trousers'}
+      label: boy   attr: {'trousers'}
+      label: boy   attr: {'trousers'}
+      label: girl  attr: {'skirt'}
+      label: girl  attr: {'skirt'}
+      label: girl  attr: {'trousers'}
+      label: girl  attr: {'trousers'}
 
     prob girl: 0.400000 ; prob boy: 0.600000
     prob trousers given girl: 0.500000
@@ -34,20 +34,20 @@ Note that I called the class Classifier … that's not quite right, since it doe
     probability girl given trousers: 0.250000
     probability boy  given trousers: 0.750000
 
+    reverse data
     corpus:
-      label: trousers  attr: set(['boy'])
-      label: trousers  attr: set(['boy'])
-      label: trousers  attr: set(['boy'])
-      label: trousers  attr: set(['boy'])
-      label: trousers  attr: set(['boy'])
-      label: trousers  attr: set(['boy'])
-      label: skirt     attr: set(['girl'])
-      label: skirt     attr: set(['girl'])
-      label: trousers  attr: set(['girl'])
-      label: trousers  attr: set(['girl'])
+      label: trousers  attr: {'boy'}
+      label: trousers  attr: {'boy'}
+      label: trousers  attr: {'boy'}
+      label: trousers  attr: {'boy'}
+      label: trousers  attr: {'boy'}
+      label: trousers  attr: {'boy'}
+      label: skirt     attr: {'girl'}
+      label: skirt     attr: {'girl'}
+      label: trousers  attr: {'girl'}
+      label: trousers  attr: {'girl'}
 
     prob trousers: 0.800000 ; prob skirt: 0.200000
     prob girl given trousers: 0.250000
     prob boy  given trousers: 0.750000
     probability trousers given girl: 0.500000
-
