@@ -1,8 +1,14 @@
 # Trival Bayesian Computer
 
-I'm just practicing my python — converted a little story problem I had solved in perl into a classifier in python, then resolved the story problem with it
+I'm just practicing my python — converted the little story problem I had solved
+in Perl into a classifier in Python, then re-solved the story problem with it.
 
-Note that I called the class Classifier … that's not quite right, since it doesn't classify, it just computes.  I had a classifier in mind for the next step, but lost track of what I was doing.
+Note that I called the class Classifier … that's not quite right, since it
+doesn't classify, it just computes.  I had a classifier in mind for the next
+step, but lost track of what I was doing.
+
+This girl/boy trousers problem is really famous. If you look up anything about
+Bayes anywhere, you'll run into it eventually.
 
 # nbc-example.py — outputs this
 
