@@ -1,11 +1,13 @@
 #!/usr/bin/env python
 
-class instance():
+import functools
+
+class instance(object):
     def __init__(self, label, *attr):
         self.label = label
         self.attr  = set(attr)
 
-class classifier():
+class classifier(object):
     def __init__(self, *instances):
         self.corpus = []
         if instances:
@@ -18,7 +20,7 @@ class classifier():
             if len(i.label) > maxl:
                 maxl = len(i.label)
         for i in self.corpus:
-            ret += "  label: %-*s  attr: %s\n" % (maxl, i.label, i.attr)
+            ret += "  label: {1:{0}}  attr: {2}\n".format(maxl, i.label, i.attr)
         return ret
 
     def add_instances(self, *instances):
@@ -58,7 +60,7 @@ class classifier():
                 if a in i.attr:
                     c += 1
             p.append( float(c) / len(self.corpus) )
-        return reduce(lambda a,b: a*b, p)
+        return functools.reduce(lambda a,b: a*b, p)
 
     def prob_attr_given_label(self, label, *attr):  # P(B|A) aka P(attr|label)
         ic = 0
