@@ -23,7 +23,7 @@ Bayes anywhere, you'll run into it eventually.
     the probability she was wearing trousers [q2]?
 
 
-    corpus:
+    Q1 corpus:
       label: boy   attr: {'trousers'}
       label: boy   attr: {'trousers'}
       label: boy   attr: {'trousers'}
@@ -41,8 +41,7 @@ Bayes anywhere, you'll run into it eventually.
     probability girl given trousers: 0.250000
     probability boy  given trousers: 0.750000
 
-    reverse data
-    corpus:
+    Q2 corpus:
       label: trousers  attr: {'boy'}
       label: trousers  attr: {'boy'}
       label: trousers  attr: {'boy'}
