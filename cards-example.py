@@ -47,10 +47,10 @@ assert p_face_given_king == 1.0 # all kings are faces
 p_king_given_face = c.posterior('king','face') # P(H|E) = P(E|H)/P(E) * P(H)
 assert p_king_given_face == 1.0/3
 
-print("P(King)      = {:0.4f} aka the prior probability".format(p_king))
-print("P(Face)      = {:0.4f}".format(p_face))
-print("P(Face|King) = {:0.4f}".format(p_face_given_king))
-print("P(E|H)/P(E)  = {:0.4f} aka the likelyhood ratio".format(c.likelyhood_ratio('face','king')))
-print("P(King|Face) = P(Face|King)/P(Face) * P(King) aka the posterior probability")
-print("             = {:0.4f}/{:0.4f} * {:0.4f}".format(p_face_given_king, p_face, p_king))
-print("             = {:0.4f}".format( p_king_given_face ))
+print("P(King)              = {:0.4f} aka the prior probability".format(p_king))
+print("P(Face)              = {:0.4f} aka the evidence".format(p_face))
+print("P(Face|King)         = {:0.4f}".format(p_face_given_king))
+print("P(Face|King)/P(Face) = {:0.4f} aka the likelyhood ratio".format(c.likelyhood_ratio('face','king')))
+print("P(King|Face)         = P(Face|King)/P(Face) * P(King) aka the posterior probability")
+print("                     = {:0.4f}/{:0.4f} * {:0.4f}".format(p_face_given_king, p_face, p_king))
+print("                     = {:0.4f}".format( p_king_given_face ))
