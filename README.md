@@ -66,9 +66,10 @@ Bayes anywhere, you'll run into it eventually.
 
 # cards-example.py — outputs this
 
-    Have someone draw a cards from a deck. They tell you it's a face card, what's the probability it's a king?
+    Have someone draw a cards from a deck. They tell you it's a face card, what's
+    the probability it's a king?
 
-    (You could totally do this without invoking Bayes, but you can use Bayes too and get the same thing.)
+    (You could totally do this without invoking Bayes… Here's how you use Bayes.)
 
 
     P(King)              = 0.0769 aka the prior probability
