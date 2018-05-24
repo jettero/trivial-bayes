@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-
 my_iterable = (tuple,list,set,dict)
 
 class Instance(object):
