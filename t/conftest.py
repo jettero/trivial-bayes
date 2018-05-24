@@ -1,5 +1,6 @@
 
 import pytest
+import nbayes
 
 @pytest.fixture
 def trousers():
@@ -7,7 +8,7 @@ def trousers():
     return nbayes.Classifier(*data)
 
 @pytest.fixture
-def deck():
+def cards():
     class Card(nbayes.Instance):
         def __init__(self, card_string):
             labels = set()

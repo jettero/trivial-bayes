@@ -25,6 +25,9 @@ class Classifier(object):
             ret += "  label: {1:{0}}  attr: {2}\n".format(maxl, i.label, i.attr)
         return ret
 
+    def __len__(self):
+        return len(self.corpus)
+
     def add_instances(self, *instances):
         for i in instances:
             if isinstance(i, Instance):
