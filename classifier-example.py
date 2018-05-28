@@ -2,6 +2,10 @@
 
 import nbayes
 import random
+import sys
+
+if len(sys.argv) > 1:
+    random.seed( int(sys.argv[1]) )
 
 nwords = ('this', 'that', 'the-other')
 swords = ('viagra', 'stuff', 'blah') + nwords
