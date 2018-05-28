@@ -139,3 +139,21 @@ class Classifier(object):
             p_n *= i
             p_m *= (1-i)
         return p_n / (p_n + p_m)
+
+    def classify(self, attr, labels=None):
+        # I made this up based on the above prob_label_not_label_given_attr
+        if labels is None:
+            labels = set([ x.label for x in self.corpus ])
+        f = dict()
+        for a in attr:
+            p = dict()
+            for l in labels:
+                p[l] = self.prob_attr_given_label(l, a) * self.prob_label(l)
+            s = sum( p.values() )
+            for l in labels:
+                _f = p[l] / s
+                try:
+                    f[l] *= _f
+                except KeyError:
+                    f[l] = _f
+        return max(f.keys(), key=lambda x: f[x])

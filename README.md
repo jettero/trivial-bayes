@@ -83,44 +83,44 @@ Bayes anywhere, you'll run into it eventually.
 
 # classifier-example.py — outputs this (random seed 390)
     corpus:
-      label: spam  attr: {'viagra', 'that', 'blah', 'this', 'the-other', 'stuff'}
+      label: spam  attr: {'that', 'blah', 'stuff', 'the-other', 'viagra', 'this'}
       label: spam  attr: {'the-other', 'blah', 'viagra'}
-      label: spam  attr: {'viagra', 'this', 'blah', 'the-other', 'stuff'}
-      label: spam  attr: {'the-other', 'stuff', 'this', 'that'}
-      label: spam  attr: {'viagra', 'that', 'this', 'blah', 'the-other', 'stuff'}
-      label: spam  attr: {'this', 'that'}
-      label: spam  attr: {'viagra', 'that', 'this', 'blah', 'stuff'}
-      label: spam  attr: {'viagra', 'blah', 'this', 'the-other', 'stuff'}
-      label: spam  attr: {'the-other', 'this', 'blah', 'that'}
-      label: spam  attr: {'viagra', 'that', 'blah', 'the-other', 'stuff'}
-      label: spam  attr: {'blah', 'this', 'viagra', 'that'}
-      label: spam  attr: {'viagra', 'blah', 'this', 'the-other', 'stuff'}
-      label: spam  attr: {'viagra', 'that', 'this', 'blah', 'the-other'}
-      label: spam  attr: {'blah', 'stuff', 'this', 'viagra'}
-      label: spam  attr: {'viagra', 'that', 'this', 'blah', 'the-other', 'stuff'}
-      label: spam  attr: {'viagra', 'that', 'this', 'blah', 'the-other', 'stuff'}
-      label: ham   attr: {'that', 'douglas', 'this', 'blah', 'the-other'}
-      label: ham   attr: {'this', 'blah', 'that'}
-      label: ham   attr: {'that', 'douglas', 'this', 'blah', 'jimmy'}
-      label: ham   attr: {'that', 'douglas', 'this', 'blah', 'the-other', 'jimmy'}
-      label: ham   attr: {'that', 'douglas', 'this', 'blah', 'jimmy'}
-      label: ham   attr: {'that', 'douglas', 'this', 'blah', 'jimmy', 'the-other'}
-      label: ham   attr: {'that', 'douglas', 'this', 'the-other', 'jimmy'}
-      label: ham   attr: {'that', 'douglas', 'this', 'blah', 'jimmy', 'the-other'}
-      label: ham   attr: {'that', 'douglas', 'blah', 'the-other', 'jimmy'}
-      label: ham   attr: {'the-other', 'douglas', 'this', 'that'}
-      label: ham   attr: {'jimmy', 'douglas', 'this', 'the-other'}
-      label: ham   attr: {'that', 'douglas', 'blah', 'the-other', 'jimmy'}
-      label: ham   attr: {'that', 'douglas', 'blah', 'the-other', 'jimmy'}
-      label: ham   attr: {'the-other', 'this', 'blah', 'that'}
-      label: ham   attr: {'that', 'douglas', 'this', 'blah', 'jimmy', 'the-other'}
+      label: spam  attr: {'blah', 'the-other', 'stuff', 'viagra', 'this'}
+      label: spam  attr: {'stuff', 'the-other', 'that', 'this'}
+      label: spam  attr: {'that', 'blah', 'stuff', 'the-other', 'viagra', 'this'}
+      label: spam  attr: {'that', 'this'}
+      label: spam  attr: {'that', 'blah', 'stuff', 'viagra', 'this'}
+      label: spam  attr: {'blah', 'the-other', 'stuff', 'viagra', 'this'}
+      label: spam  attr: {'that', 'the-other', 'this', 'blah'}
+      label: spam  attr: {'that', 'blah', 'the-other', 'stuff', 'viagra'}
+      label: spam  attr: {'that', 'this', 'blah', 'viagra'}
+      label: spam  attr: {'blah', 'the-other', 'stuff', 'viagra', 'this'}
+      label: spam  attr: {'that', 'blah', 'the-other', 'viagra', 'this'}
+      label: spam  attr: {'stuff', 'this', 'blah', 'viagra'}
+      label: spam  attr: {'that', 'blah', 'the-other', 'stuff', 'viagra', 'this'}
+      label: spam  attr: {'that', 'blah', 'stuff', 'the-other', 'viagra', 'this'}
+      label: ham   attr: {'that', 'douglas', 'blah', 'the-other', 'this'}
+      label: ham   attr: {'that', 'this', 'blah'}
+      label: ham   attr: {'that', 'douglas', 'jimmy', 'blah', 'this'}
+      label: ham   attr: {'that', 'jimmy', 'douglas', 'blah', 'the-other', 'this'}
+      label: ham   attr: {'that', 'douglas', 'jimmy', 'blah', 'this'}
+      label: ham   attr: {'that', 'douglas', 'jimmy', 'blah', 'the-other', 'this'}
+      label: ham   attr: {'that', 'douglas', 'jimmy', 'the-other', 'this'}
+      label: ham   attr: {'that', 'jimmy', 'douglas', 'blah', 'the-other', 'this'}
+      label: ham   attr: {'that', 'douglas', 'jimmy', 'blah', 'the-other'}
+      label: ham   attr: {'that', 'douglas', 'the-other', 'this'}
+      label: ham   attr: {'douglas', 'the-other', 'this', 'jimmy'}
+      label: ham   attr: {'that', 'douglas', 'jimmy', 'blah', 'the-other'}
+      label: ham   attr: {'that', 'douglas', 'jimmy', 'blah', 'the-other'}
+      label: ham   attr: {'that', 'the-other', 'this', 'blah'}
+      label: ham   attr: {'that', 'jimmy', 'douglas', 'blah', 'the-other', 'this'}
 
     P(spam|data[ 0]) = 1.0000 classified correctly
     P(spam|data[ 1]) = 1.0000 classified correctly
     P(spam|data[ 2]) = 1.0000 classified correctly
     P(spam|data[ 3]) = 1.0000 classified correctly
     P(spam|data[ 4]) = 1.0000 classified correctly
-    P(spam|data[ 5]) = 0.4783 false negative {'this', 'that'}
+    P(spam|data[ 5]) = 0.4783 false negative {'that', 'this'}
     P(spam|data[ 6]) = 1.0000 classified correctly
     P(spam|data[ 7]) = 1.0000 classified correctly
     P(spam|data[ 8]) = 0.5168 classified correctly
@@ -132,7 +132,7 @@ Bayes anywhere, you'll run into it eventually.
     P(spam|data[14]) = 1.0000 classified correctly
     P(spam|data[15]) = 1.0000 classified correctly
     P(spam|data[16]) = 0.0000 classified correctly
-    P(spam|data[17]) = 0.5168 false positive {'this', 'blah', 'that'}
+    P(spam|data[17]) = 0.5168 false positive {'that', 'this', 'blah'}
     P(spam|data[18]) = 0.0000 classified correctly
     P(spam|data[19]) = 0.0000 classified correctly
     P(spam|data[20]) = 0.0000 classified correctly
@@ -144,5 +144,38 @@ Bayes anywhere, you'll run into it eventually.
     P(spam|data[26]) = 0.0000 classified correctly
     P(spam|data[27]) = 0.0000 classified correctly
     P(spam|data[28]) = 0.0000 classified correctly
-    P(spam|data[29]) = 0.5168 false positive {'the-other', 'this', 'blah', 'that'}
+    P(spam|data[29]) = 0.5168 false positive {'that', 'the-other', 'this', 'blah'}
     P(spam|data[30]) = 0.0000 classified correctly
+
+    method 2
+    R(data[ 0]) = spam (actual: spam)
+    R(data[ 1]) = spam (actual: spam)
+    R(data[ 2]) = spam (actual: spam)
+    R(data[ 3]) = spam (actual: spam)
+    R(data[ 4]) = spam (actual: spam)
+    R(data[ 5]) = ham  (actual: spam)
+    R(data[ 6]) = spam (actual: spam)
+    R(data[ 7]) = spam (actual: spam)
+    R(data[ 8]) = spam (actual: spam)
+    R(data[ 9]) = spam (actual: spam)
+    R(data[10]) = spam (actual: spam)
+    R(data[11]) = spam (actual: spam)
+    R(data[12]) = spam (actual: spam)
+    R(data[13]) = spam (actual: spam)
+    R(data[14]) = spam (actual: spam)
+    R(data[15]) = spam (actual: spam)
+    R(data[16]) = ham  (actual: ham )
+    R(data[17]) = spam (actual: ham )
+    R(data[18]) = ham  (actual: ham )
+    R(data[19]) = ham  (actual: ham )
+    R(data[20]) = ham  (actual: ham )
+    R(data[21]) = ham  (actual: ham )
+    R(data[22]) = ham  (actual: ham )
+    R(data[23]) = ham  (actual: ham )
+    R(data[24]) = ham  (actual: ham )
+    R(data[25]) = ham  (actual: ham )
+    R(data[26]) = ham  (actual: ham )
+    R(data[27]) = ham  (actual: ham )
+    R(data[28]) = ham  (actual: ham )
+    R(data[29]) = spam (actual: ham )
+    R(data[30]) = ham  (actual: ham )

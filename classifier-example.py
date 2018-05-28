@@ -52,3 +52,8 @@ for i in range(len(data)):
     if result != ok:
         moar += ' ' + str(data[i].attr)
     print("P(spam|data[{:2}]) = {:0.4f} {}".format(i, p_spam, moar))
+
+print("\nmethod 2")
+for i in range(len(data)):
+    res = corpus.classify( data[i].attr )
+    print("R(data[{:2}]) = {:4} (actual: {:4})".format( i, res, data[i].label ))
