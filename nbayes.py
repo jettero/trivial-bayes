@@ -121,4 +121,15 @@ class Classifier(object):
     def posterior(self,h,e): # P(E|H)/P(E) * P(H)
         return self.likelyhood_ratio(e,h) * self.prior(h)
 
-
+    def prob_label_not_label_given_attr(self, l1, l2, *attr):
+        p = []
+        for a in _1list(attr):
+            p1 = self.prob_attr_given_label(l1, a) * self.prob_label(l1)
+            p2 = self.prob_attr_given_label(l2, a) * self.prob_label(l2)
+            p.append(p1 / (p1 + p2))
+        p_n = 1.0
+        p_m = 1.0
+        for i in p:
+            p_n *= i
+            p_m *= (1-i)
+        return p_n / (p_n + p_m)

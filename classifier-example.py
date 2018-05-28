@@ -6,6 +6,7 @@ import random
 nwords = ('this', 'that', 'the-other')
 swords = ('viagra', 'stuff', 'blah') + nwords
 hwords = ('douglas', 'jimmy', 'blah') + nwords
+maxwlen = max([ len(x) for x in set(nwords+swords+hwords) ])
 
 class Email(object):
     src_words = nwords
@@ -19,6 +20,8 @@ class Email(object):
     @property
     def instance(self):
         return nbayes.Instance(self.label, self.words)
+    def __str__(self):
+        return "{}<>".format(self.label)
 
 class Spam(Email):
     src_words = swords
@@ -32,7 +35,16 @@ data += [  Ham().instance for i in range(random.randint(7,20)) ]
 corpus = nbayes.Classifier(data)
 
 print(corpus)
-p1 = corpus.prob_attr_given_label('spam', 'viagra') * corpus.prob_label('spam')
-p2 = corpus.prob_attr_given_label('ham',  'viagra') * corpus.prob_label('ham')
-pf = p1 / (p1 + p2)
-print("P(spam|viagra) = {}".format(pf))
+for i in range(len(data)):
+    p_spam = corpus.prob_label_not_label_given_attr('spam','ham', data[i].attr)
+
+    ok = result = 'classified correctly'
+    if p_spam >= 0.5 and data[i].label == 'ham':
+        result = 'false positive'
+    if p_spam < 0.5 and data[i].label == 'spam':
+        result = 'false negative'
+
+    moar = result
+    if result != ok:
+        moar += ' ' + str(data[i].attr)
+    print("P(spam|data[{:2}]) = {:0.4f} {}".format(i, p_spam, moar))
