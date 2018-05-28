@@ -1,4 +1,4 @@
-my_iterable = (tuple,list,set,dict)
+# coding: utf-8
 
 class Instance(object):
     def __init__(self, label, *attr):
@@ -52,33 +52,33 @@ class Classifier(object):
                 c += 1.0
         return c / len(self.corpus)
 
-    def prob_attr(self,*attr): # P(B)
+    def prob_attr(self, attr): # P(B)
         if not self.corpus:
             return 0.0
 
         c = 0.0
         for i in self.corpus:
-            if i.attr.issuperset(attr):
+            if attr in i.attr:
                 c += 1.0
         return c / len(self.corpus)
 
-    def prob_attr_given_label(self, label, *attr):  # P(B|A) aka P(attr|label)
+    def prob_attr_given_label(self, label, attr):  # P(B|A) aka P(attr|label)
         ic = 0
         ac = 0.0
         for i in self.corpus:
             if i.label == label:
                 ic += 1
-                if i.attr.issuperset(attr):
+                if attr in i.attr:
                     ac += 1.0
         if ic == 0:
             return 0
         return ac / ic
 
-    def prob_label_given_attr(self, label, *attr): # P(A|B) aka P(label|attr)
-        p_B = self.prob_attr(*attr)                # aka Bayes: P(A|B) = P(B|A)*P(A) / P(B)
+    def prob_label_given_attr(self, label, attr): # P(A|B) aka P(label|attr)
+        p_B = self.prob_attr(attr)                # aka Bayes: P(A|B) = P(B|A)*P(A) / P(B)
         if p_B == 0:
             return 0
-        return (self.prob_attr_given_label(label,*attr) * self.prob_label(label)) / p_B
+        return (self.prob_attr_given_label(label,attr) * self.prob_label(label)) / p_B
 
 
 
@@ -86,37 +86,32 @@ class Classifier(object):
     # probability hypothesis is true given evidence
     # is the prior probability P(H) times the likelyhood ratio P(E|H)/P(E)
 
-    def prob_lattr(self,*lattr): # P(H) or P(E)
+    def prob_lattr(self,lattr): # P(H) or P(E)
         if not self.corpus:
             return 0.0
 
-        if len(lattr) == 1 and isinstance(lattr[0], my_iterable):
-            lattr = lattr[0]
-
         c = 0.0
         for i in self.corpus:
-            if i.lattr.issuperset(lattr) :
+            if lattr in i.lattr:
                 c += 1.0
         return c / len(self.corpus)
     prior = prob_lattr
 
-    def prob_lattr_given_lattr(self,eset,hset): # P(E|H)
-        if not isinstance(eset, my_iterable): eset = set([eset])
-        if not isinstance(hset, my_iterable): hset = set([hset])
+    def prob_lattr_given_lattr(self,e,h): # P(E|H)
         ic = 0
-        ac = 0.0
+        ac = 0
         for i in self.corpus:
             l = i.lattr
-            if l.issuperset(hset):
+            if h in l:
                 ic += 1
-                if l.issuperset(eset):
-                    ac += 1.0
+                if e in l:
+                    ac += 1
         if ic == 0:
             return 0
-        return ac / ic
+        return float(ac) / ic
 
-    def likelyhood_ratio(self, eset,hset): # P(E|H)/P(E)
-        return self.prob_lattr_given_lattr(eset,hset) / self.prob_lattr(eset)
+    def likelyhood_ratio(self, e,h): # P(E|H)/P(E)
+        return self.prob_lattr_given_lattr(e,h) / self.prob_lattr(e)
 
-    def posterior(self,hset,eset):
-        return self.likelyhood_ratio(eset,hset) * self.prior(hset)
+    def posterior(self,h,e): # P(E|H)/P(E) * P(H)
+        return self.likelyhood_ratio(e,h) * self.prior(h)
