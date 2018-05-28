@@ -122,11 +122,17 @@ class Classifier(object):
         return self.likelyhood_ratio(e,h) * self.prior(h)
 
     def prob_label_not_label_given_attr(self, l1, l2, *attr):
+        # I lifted this compuation from wikipedia. The compuation was under dispute at the time, but it 
+        # seems to do what I want.
+        # short-url-to-version-and-section: https://goo.gl/DPYLDj
         p = []
         for a in _1list(attr):
             p1 = self.prob_attr_given_label(l1, a) * self.prob_label(l1)
             p2 = self.prob_attr_given_label(l2, a) * self.prob_label(l2)
-            p.append(p1 / (p1 + p2))
+            pf = p1 / (p1 + p2)
+            if len(a) == 1:
+                return pf
+            p.append(pf)
         p_n = 1.0
         p_m = 1.0
         for i in p:
