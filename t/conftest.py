@@ -39,3 +39,52 @@ def cards():
             super(Card,self).__init__(card_string, *labels)
 
     return nbayes.Classifier(*[ Card(v+s) for s in 'CDHS' for v in '23456789TJQKA' ])
+
+@pytest.fixture
+def email_data():
+    return (
+        [ 'spam', 'this', 'viagra', 'the-other', 'stuff' ],
+        [ 'spam', 'this', 'the-other', 'blah', 'viagra', 'stuff', 'that' ],
+        [ 'spam', 'this', 'the-other' ],
+        [ 'spam', 'this', 'the-other', 'viagra', 'stuff', 'that' ],
+        [ 'spam', 'this', 'the-other', 'blah', 'stuff', 'that' ],
+        [ 'spam', 'this', 'the-other', 'blah', 'viagra', 'that' ],
+        [ 'spam', 'this', 'the-other', 'blah', 'stuff', 'that' ],
+        [ 'spam', 'this', 'the-other', 'blah', 'viagra', 'stuff', 'that' ],
+        [ 'spam', 'this', 'blah', 'viagra', 'stuff', 'that' ],
+        [ 'spam', 'that', 'viagra' ],
+        [ 'spam', 'this', 'the-other', 'blah', 'viagra', 'stuff', 'that' ],
+        [ 'spam', 'that', 'this', 'viagra', 'blah' ],
+        [ 'spam', 'this', 'blah', 'viagra', 'stuff', 'that' ],
+        [ 'spam', 'this', 'the-other', 'that', 'stuff' ],
+        [ 'spam', 'this', 'the-other', 'blah', 'viagra', 'that' ],
+        [ 'spam', 'this', 'the-other', 'blah', 'viagra', 'that' ],
+        [ 'spam', 'viagra', 'blah', 'the-other' ],
+        [ 'spam', 'this', 'the-other', 'blah', 'viagra', 'stuff', 'that' ],
+        [ 'spam', 'viagra', 'blah', 'the-other', 'stuff' ],
+        [ 'spam', 'this', 'viagra', 'blah', 'stuff' ],
+        [ 'ham',  'that', 'this', 'blah' ],
+        [ 'ham',  'that', 'this', 'blah' ],
+        [ 'ham',  'this', 'the-other', 'blah', 'jimmy', 'douglas', 'that' ],
+        [ 'ham',  'this', 'the-other', 'blah', 'douglas' ],
+        [ 'ham',  'this', 'the-other', 'blah', 'jimmy', 'douglas' ],
+        [ 'ham',  'this', 'the-other', 'jimmy', 'douglas', 'that' ],
+        [ 'ham',  'this', 'the-other', 'that' ],
+        [ 'ham',  'this', 'the-other', 'blah', 'jimmy', 'douglas', 'that' ],
+        [ 'ham',  'this', 'the-other', 'blah', 'jimmy', 'douglas', 'that' ],
+        [ 'ham',  'the-other', 'blah', 'douglas' ],
+        [ 'ham',  'this', 'blah', 'jimmy', 'douglas' ],
+        [ 'ham',  'this', 'the-other', 'blah', 'jimmy', 'douglas', 'that' ],
+        [ 'ham',  'that', 'this', 'the-other', 'douglas' ],
+        [ 'ham',  'this', 'the-other', 'blah', 'jimmy', 'douglas', 'that' ],
+        [ 'ham',  'blah', 'jimmy', 'douglas' ],
+        [ 'ham',  'this', 'the-other', 'blah', 'jimmy', 'douglas' ],
+        [ 'ham',  'this', 'the-other', 'blah', 'jimmy', 'douglas' ],
+        [ 'ham',  'the-other', 'blah', 'jimmy', 'douglas', 'that' ],
+        [ 'ham',  'this', 'the-other', 'blah', 'douglas', 'that' ],
+        [ 'ham',  'this', 'the-other', 'blah', 'jimmy' ],
+    )
+
+@pytest.fixture
+def emails(email_data):
+    return nbayes.Classifier(email_data)
