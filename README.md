@@ -4,7 +4,11 @@ I'm just practicing my python — converted the little story problem I had solve
 in Perl into a classifier in Python, then re-solved the story problem with it.
 (I dropped my original Perl solution in the contrib folder.)
 
-Everything done here is done better and more completely in [bayespy](http://bayespy.org).
+Everything done here is done better and more completely in
+[bayespy](http://bayespy.org).  I made absolutely no attempt to include
+docstring documentation in the functions because the entire point of this lib is
+as an example of doing these compuations. For real actual Bayesian systems,
+bayespy is probably the better choice.
 
 Note that I called the class Classifier … that's not quite right, since it
 really only does classifying using `prob_label_not_label_given_addr`.
