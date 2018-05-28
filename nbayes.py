@@ -1,9 +1,14 @@
 # coding: utf-8
 
+def _1list(x):
+    if len(x) == 1 and isinstance(x[0], (set,list,tuple,dict)):
+        return x[0]
+    return x
+
 class Instance(object):
     def __init__(self, label, *attr):
         self.label = label
-        self.attr  = set(attr)
+        self.attr  = set(_1list(attr))
 
     @property
     def lattr(self):
@@ -29,7 +34,7 @@ class Classifier(object):
         return len(self.corpus)
 
     def add_instances(self, *instances):
-        for i in instances:
+        for i in _1list(instances):
             if isinstance(i, Instance):
                 self.add_instance(i)
             else:
