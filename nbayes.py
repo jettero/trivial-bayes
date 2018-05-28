@@ -120,3 +120,5 @@ class Classifier(object):
 
     def posterior(self,h,e): # P(E|H)/P(E) * P(H)
         return self.likelyhood_ratio(e,h) * self.prior(h)
+
+
