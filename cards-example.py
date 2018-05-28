@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 
 import nbayes
-import random
 
 class Card(nbayes.Instance):
     def __init__(self, card_string):
