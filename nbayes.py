@@ -150,10 +150,11 @@ class Classifier(object):
             for l in labels:
                 p[l] = self.prob_attr_given_label(l, a) * self.prob_label(l)
             s = sum( p.values() )
-            for l in labels:
-                _f = p[l] / s
-                try:
-                    f[l] *= _f
-                except KeyError:
-                    f[l] = _f
+            if s != 0.0:
+                for l in labels:
+                    _f = p[l] / s
+                    try:
+                        f[l] *= _f
+                    except KeyError:
+                        f[l] = _f
         return max(f.keys(), key=lambda x: f[x])
