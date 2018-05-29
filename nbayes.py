@@ -147,23 +147,28 @@ class Classifier(object):
         def sni(i, x):
             return sum(x[0:i] + x[(i+1):])
 
-        def dbz(a,b):
-            if b == 0.0:
-                return 1.0
-            return a/b
-
-        p = [ [1.0,1.0] for l in labels ]
+        p = [ None for l in labels ]
         for a in _1list(attr):
             x = [ self.prob_attr_given_label(l,a) * self.prob_label(l) for l in labels ]
             s = sum(x)
+            if s == 0:
+                continue
             for i in range(len(p)):
-                pf = dbz(x[i], s)
-                p[i][0] *= pf
-                p[i][1] *= (1-pf)
+                pf = x[i] / s
+                if p[i] is None:
+                    p[i] = [pf, (1-pf)]
+                else:
+                    p[i][0] *= pf
+                    p[i][1] *= (1-pf)
 
         ret = dict()
         for i in range(len(p)):
-            ret[ labels[i] ] = dbz(p[i][0], sum(p[i]))
+            if p[i] is None:
+                continue
+            s = sum(p[i])
+            if s == 0:
+                continue
+            ret[ labels[i] ] = p[i][0] / s
 
         return ret
 
