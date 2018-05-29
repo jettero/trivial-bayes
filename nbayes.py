@@ -2,8 +2,8 @@
 
 def _1list(x):
     if len(x) == 1 and isinstance(x[0], (set,list,tuple,dict)):
-        return x[0]
-    return x
+        return iter(x[0])
+    return iter(x)
 
 class Instance(object):
     def __init__(self, label, *attr):
@@ -125,36 +125,49 @@ class Classifier(object):
         # I lifted this compuation from wikipedia. The compuation was under dispute at the time, but it 
         # seems to do what I want.
         # short-url-to-version-and-section: https://goo.gl/DPYLDj
-        p = []
+
+        p_n = 1.0
+        p_m = 1.0
         for a in _1list(attr):
             p1 = self.prob_attr_given_label(l1, a) * self.prob_label(l1)
             p2 = self.prob_attr_given_label(l2, a) * self.prob_label(l2)
             pf = p1 / (p1 + p2)
-            if len(a) == 1:
-                return pf
-            p.append(pf)
-        p_n = 1.0
-        p_m = 1.0
-        for i in p:
-            p_n *= i
-            p_m *= (1-i)
+            p_n *= pf
+            p_m *= (1-pf)
         return p_n / (p_n + p_m)
 
-    def classify(self, attr, labels=None):
+    def prob_all_labels(self, attr, labels=None):
         # I made this up based on the above prob_label_not_label_given_attr
         if labels is None:
             labels = set([ x.label for x in self.corpus ])
-        f = dict()
-        for a in attr:
-            p = dict()
-            for l in labels:
-                p[l] = self.prob_attr_given_label(l, a) * self.prob_label(l)
-            s = sum( p.values() )
-            if s != 0.0:
-                for l in labels:
-                    _f = p[l] / s
-                    try:
-                        f[l] *= _f
-                    except KeyError:
-                        f[l] = _f
-        return max(f.keys(), key=lambda x: f[x])
+
+        # we need indexing, so any iterable must be listified
+        labels = list(labels)
+
+        def sni(i, x):
+            return sum(x[0:i] + x[(i+1):])
+
+        def dbz(a,b):
+            if b == 0.0:
+                return 1.0
+            return a/b
+
+        p = [ [1.0,1.0] for l in labels ]
+        for a in _1list(attr):
+            x = [ self.prob_attr_given_label(l,a) * self.prob_label(l) for l in labels ]
+            s = sum(x)
+            for i in range(len(p)):
+                pf = dbz(x[i], s)
+                p[i][0] *= pf
+                p[i][1] *= (1-pf)
+
+        ret = dict()
+        for i in range(len(p)):
+            ret[ labels[i] ] = dbz(p[i][0], sum(p[i]))
+
+        return ret
+
+    def classify(self, attr, labels=None):
+        p = self.prob_all_labels(attr, labels=labels)
+        return max(p, key=lambda l: p[l])
+

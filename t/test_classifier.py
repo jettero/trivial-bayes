@@ -21,3 +21,5 @@ def test_classifier(emails,email_data):
         else:
             assert r == 'ham'
 
+        ap = emails.prob_all_labels(a)
+        assert ap['spam'] == p
