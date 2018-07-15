@@ -10,6 +10,9 @@ class Instance(object):
         self.label = label
         self.attr  = set(_1list(attr))
 
+    def __repr__(self):
+        return "nbi({}: {})".format(self.label, self.attr)
+
     @property
     def lattr(self):
         return set(self.label).union(self.attr)
