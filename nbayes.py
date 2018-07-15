@@ -88,8 +88,6 @@ class Classifier(object):
             return 0
         return (self.prob_attr_given_label(label,attr) * self.prob_label(label)) / p_B
 
-
-
     # more generalized P(H|E) = P(E|H)/P(E) * P(H)
     # probability hypothesis is true given evidence
     # is the prior probability P(H) times the likelyhood ratio P(E|H)/P(E)
@@ -123,72 +121,3 @@ class Classifier(object):
 
     def posterior(self,h,e): # P(E|H)/P(E) * P(H)
         return self.likelyhood_ratio(e,h) * self.prior(h)
-
-    def prob_label_not_label_given_attr(self, l1, l2, *attr):
-        # I lifted this compuation from wikipedia. The compuation was under dispute at the time, but it 
-        # seems to do what I want.
-        # short-url-to-version-and-section: https://goo.gl/DPYLDj
-
-        p_n = 1.0
-        p_m = 1.0
-        for a in _1list(attr):
-            p1 = self.prob_attr_given_label(l1, a) * self.prob_label(l1)
-            p2 = self.prob_attr_given_label(l2, a) * self.prob_label(l2)
-            try:
-                pf = p1 / (p1 + p2)
-            except ZeroDivisionError:
-                continue
-            p_n *= pf
-            p_m *= (1-pf)
-
-        try:
-            return p_n / (p_n + p_m)
-        except ZeroDivisionError:
-            return 0
-
-    def prob_all_labels(self, attr, labels=None):
-        # I made this up based on the above prob_label_not_label_given_attr
-        if labels is None:
-            labels = set([ x.label for x in self.corpus ])
-
-        # we need indexing, so any iterable must be listified
-        labels = list(labels)
-
-        p = [ None for l in labels ]
-        for a in _1list(attr):
-            x = [ self.prob_attr_given_label(l,a) * self.prob_label(l) for l in labels ]
-            s = sum(x)
-            if s == 0:
-                continue
-            for i in range(len(p)):
-                pf = x[i] / s
-                if p[i] is None:
-                    p[i] = [pf, (1-pf)]
-                else:
-                    p[i][0] *= pf
-                    p[i][1] *= (1-pf)
-
-        ret = dict()
-        for i in range(len(p)):
-            if p[i] is None:
-                continue
-            s = sum(p[i])
-            if s == 0:
-                continue
-            ret[ labels[i] ] = p[i][0] / s
-
-        return ret
-
-    def classify_table(self, attr, threshold=0.01, labels=None):
-        p = self.prob_all_labels(attr, labels=labels)
-        k = [ k for k in p if abs(p[k]) >= threshold ]
-        ret = dict()
-        for i in k:
-            ret[i] = p[i]
-        return ret
-
-    def classify(self, attr, threshold=0.01, labels=None):
-        t = self.classify_table(attr, threshold=threshold, labels=labels)
-        if t:
-            return max(t, key=lambda k: t[k])
-
