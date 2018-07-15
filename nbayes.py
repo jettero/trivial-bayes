@@ -174,5 +174,8 @@ class Classifier(object):
 
     def classify(self, attr, labels=None):
         p = self.prob_all_labels(attr, labels=labels)
-        return max(p, key=lambda l: p[l])
+        try:
+            return max(p, key=lambda l: p[l])
+        except ValueError:
+            pass
 
