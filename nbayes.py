@@ -172,9 +172,16 @@ class Classifier(object):
 
         return ret
 
-    def classify(self, attr, threshold=0.01, labels=None):
+    def classify_table(self, attr, threshold=0.01, labels=None):
         p = self.prob_all_labels(attr, labels=labels)
         k = [ k for k in p if p[k] >= threshold ]
-        if k:
-            return max(k, key=lambda k: p[k])
+        ret = dict()
+        for i in k:
+            ret[i] = p[i]
+        return ret
+
+    def classify(self, attr, threshold=0.01, labels=None):
+        t = self.classify_table(attr, threshold=threshold, labels=labels)
+        if t:
+            return max(t, key=lambda k: t[k])
 
