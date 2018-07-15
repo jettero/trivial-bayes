@@ -46,7 +46,7 @@ def test_big_table():
         'l1': words[0:5]   + words[25:],
         'l2': words[5:10]  + words[25:],
         'l4': words[7:13]  + words[25:],
-        'l3': words[10:15] + words[25:],
+        'l3': words[12:15] + words[25:],
     }
 
     import nbayes

@@ -134,10 +134,17 @@ class Classifier(object):
         for a in _1list(attr):
             p1 = self.prob_attr_given_label(l1, a) * self.prob_label(l1)
             p2 = self.prob_attr_given_label(l2, a) * self.prob_label(l2)
-            pf = p1 / (p1 + p2)
+            try:
+                pf = p1 / (p1 + p2)
+            except ZeroDivisionError:
+                continue
             p_n *= pf
             p_m *= (1-pf)
-        return p_n / (p_n + p_m)
+
+        try:
+            return p_n / (p_n + p_m)
+        except ZeroDivisionError:
+            return 0
 
     def prob_all_labels(self, attr, labels=None):
         # I made this up based on the above prob_label_not_label_given_attr
@@ -146,9 +153,6 @@ class Classifier(object):
 
         # we need indexing, so any iterable must be listified
         labels = list(labels)
-
-        def sni(i, x):
-            return sum(x[0:i] + x[(i+1):])
 
         p = [ None for l in labels ]
         for a in _1list(attr):
@@ -177,7 +181,7 @@ class Classifier(object):
 
     def classify_table(self, attr, threshold=0.01, labels=None):
         p = self.prob_all_labels(attr, labels=labels)
-        k = [ k for k in p if p[k] >= threshold ]
+        k = [ k for k in p if abs(p[k]) >= threshold ]
         ret = dict()
         for i in k:
             ret[i] = p[i]
