@@ -172,10 +172,9 @@ class Classifier(object):
 
         return ret
 
-    def classify(self, attr, labels=None):
+    def classify(self, attr, threshold=0.01, labels=None):
         p = self.prob_all_labels(attr, labels=labels)
-        try:
-            return max(p, key=lambda l: p[l])
-        except ValueError:
-            pass
+        k = [ k for k in p if p[k] >= threshold ]
+        if k:
+            return max(k, key=lambda k: p[k])
 
