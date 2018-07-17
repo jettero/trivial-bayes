@@ -26,12 +26,6 @@ class Classified(dict):
     def __str__(self):
         return self.final
 
-    def __format__(self, *a, **kw):
-        f = self.final
-        if f is None:
-            f = '??????'
-        return f.__format__(*a, **kw)
-
     @property
     def v(self):
         return [ v.f for v in self.values() ]
