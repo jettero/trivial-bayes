@@ -3,6 +3,11 @@ from .util import _1list, PI
 from .nbayes import NBayes
 
 class Classified(dict):
+    def __init__(self, *a, **kw):
+        self.threshold = kw.pop('threshold', 0.51)
+        self.default   = kw.pop('default',   None)
+        super(Classified, self).__init__(*a, **kw)
+
     class Entry(object):
         def __init__(self, p=0, f=0, n=None):
             self.p = p # interesting annotation
@@ -22,8 +27,8 @@ class Classified(dict):
 
     @property
     def final(self):
-        m = 0.51
-        r = None
+        m = self.threshold
+        r = self.default
         for k in self:
             if self[k].f>m:
                 r = k
@@ -31,9 +36,17 @@ class Classified(dict):
         return r
 
 class Classifier(NBayes):
+    def __init__(self, *a, **kw):
+        self.threshold = kw.pop('threshold', 0.51)
+        self.default   = kw.pop('default', None)
+        super(Classifier, self).__init__(*a, **kw)
+
     def classify(self, *attr, **kw): # labels=None, beta=1e-8):
-        beta   = kw.get('beta', 1e-8)
-        labels = kw.get('labels')
+        default   = kw.get('default', self.default)
+        threshold = kw.get('threshold', self.threshold)
+        beta      = kw.get('beta', 1e-8)
+        labels    = kw.get('labels')
+
         if labels is None:
             labels = set([ x.label for x in self.corpus ])
         labels = sorted(labels)
@@ -62,7 +75,7 @@ class Classifier(NBayes):
         #
         # -Paul
 
-        res = Classified()
+        res = Classified(default=default, threshold=threshold)
         for label in labels:
             n = [ self.prob_label_given_attr(label,a) for a in _1list(attr) ]
             db = len(n)*beta

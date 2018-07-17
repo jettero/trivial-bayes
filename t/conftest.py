@@ -88,3 +88,25 @@ def email_data():
 @pytest.fixture
 def emails(email_data):
     return nbayes.Classifier(email_data)
+
+@pytest.fixture
+def email_words(email_data):
+    wd = {
+        'spam': set(),
+        'ham':  set(),
+        'all':  set(),
+    }
+
+    for i in email_data:
+        c = i[0]
+        w = i[1:]
+        wd[c].update(w)
+
+    wd['all']    = wd['spam'].union(wd['ham'])
+    wd['spam']  -= wd['ham']
+    wd['ham']   -= wd['spam']
+
+    for k in wd:
+        wd[k] = list(wd[k])
+
+    return wd
