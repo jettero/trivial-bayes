@@ -3,6 +3,7 @@
 import sys
 from distutils.core import setup
 from setuptools.command.test import test as TestCommand
+from setuptools import setup, find_packages
 
 class PyTest(TestCommand):
     user_options = [('pytest-args=', 'a', "Arguments to pass to pytest")]
@@ -23,8 +24,8 @@ setup(name='nbayes',
     author        =  'Paul Miller',
     author_email  = 'paul@jettero.pl',
     url           = 'https://github.com/jettero/trivial-bayes',
-    py_modules    = ['nbayes'],
     tests_require = ['pytest'],
+    packages      = find_packages(),
     cmdclass      = {'test': PyTest},
 )
 
