@@ -2,6 +2,34 @@
 from .util import _1list, PI
 from .instance import Instance
 
+class Classified(dict):
+    class Entry(object):
+        def __init__(self, p=0, f=0, n=None):
+            self.p = p # interesting annotation
+            self.n = list() if n is None else n # interesting annotation
+            self.f = f # final result
+        def __repr__(self):
+            return "E<{:f}> ({:f}, {})".format(self.f, self.p, self.n)
+
+    def __repr__(self):
+        l = list()
+        for k in sorted(self):
+            l.append( '{}={:0.4f}'.format(k,self[k].f) )
+        return "Classified({}) -> {}".format(', '.join(l), self)
+
+    def __str__(self):
+        return self.final
+
+    @property
+    def final(self):
+        m = -1
+        r = None
+        for k in self:
+            if self[k].f>m:
+                r = k
+                m = self[k].f
+        return r
+
 class Classifier(object):
     def __init__(self, *instances):
         self.corpus = []
@@ -107,7 +135,7 @@ class Classifier(object):
     def posterior(self,h,e): # P(E|H)/P(E) * P(H)
         return self.likelyhood_ratio(e,h) * self.prior(h)
 
-    def _classify(self, *attr, **kw): # labels=None, beta=1e-8):
+    def classify(self, *attr, **kw): # labels=None, beta=1e-8):
         beta   = kw.get('beta', 1e-8)
         labels = kw.get('labels')
         if labels is None:
@@ -138,20 +166,13 @@ class Classifier(object):
         #
         # -Paul
 
-        res = dict()
+        res = Classified()
         for label in labels:
             n = [ self.prob_label_given_attr(label,a) for a in _1list(attr) ]
             db = len(n)*beta
-            res[label] = {'p': sum([ n+beta for n in n ])/(len(n)+db), 'n': n}
+            res[label] = Classified.Entry(p=sum([ n+beta for n in n ])/(len(n)+db), n=n, f=0)
         db = len(res)*beta
-        s = sum([ r['p'] + beta for r in res.values() ]) + db
+        s = sum([ r.p + beta for r in res.values() ]) + db
         for r in res.values():
-            r['f'] = r['p']/s
+            r.f = r.p/s
         return res
-
-    def classify(self, *attr, **kw):
-        ret = dict()
-        res = self._classify(*attr, **kw)
-        for label in res:
-            ret[label] = res[label]['f']
-        return ret
