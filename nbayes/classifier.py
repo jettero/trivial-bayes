@@ -44,7 +44,9 @@ class Classified(dict):
     @property
     def final(self):
         s = self.stat
-        if (s['ord'][0][0] - s['ord'][1][0]) >= self.threshold:
+        if len(s['ord']) == 1:
+            return s['ord'][0][1]
+        if len(s['ord'])>1 and (s['ord'][0][0] - s['ord'][1][0]) >= self.threshold:
             return s['ord'][0][1]
         return self.default
 
