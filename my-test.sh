@@ -6,5 +6,5 @@ else A=( python2 python3 )
 fi
 
 for python in "${A[@]}"
-do "$python" ./setup.py test
+do (set -x; "$python" ./setup.py test)
 done

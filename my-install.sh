@@ -6,5 +6,5 @@ else A=( pip2 pip3 )
 fi
 
 for pip in "${A[@]}"
-do "$pip" install .
+do (set -x; "$pip" install .)
 done
