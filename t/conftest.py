@@ -5,7 +5,7 @@ import nbayes
 @pytest.fixture
 def trousers():
     data = [['boy', 'trousers']]*6 + [['girl','skirt']]*2 + [['girl','trousers']]*2
-    return nbayes.Classifier(*data)
+    return nbayes.NBayes(*data)
 
 @pytest.fixture
 def cards():
@@ -38,7 +38,7 @@ def cards():
                     labels.add('hearts')
             super(Card,self).__init__(card_string, *labels)
 
-    return nbayes.Classifier(*[ Card(v+s) for s in 'CDHS' for v in '23456789TJQKA' ])
+    return nbayes.NBayes(*[ Card(v+s) for s in 'CDHS' for v in '23456789TJQKA' ])
 
 @pytest.fixture
 def email_data():
