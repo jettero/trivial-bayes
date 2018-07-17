@@ -27,7 +27,10 @@ class Classified(dict):
         return self.final
 
     def __format__(self, *a, **kw):
-        return self.final.__format__(*a, **kw)
+        f = self.final
+        if f is None:
+            f = '??????'
+        return f.__format__(*a, **kw)
 
     @property
     def v(self):
