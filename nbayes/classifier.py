@@ -1,20 +1,21 @@
-
 from .util import _1list, PI
 from .nbayes import NBayes
 
 class Classified(dict):
-    def __init__(self, *a, **kw):
-        self.threshold = kw.pop('threshold', 0.51)
-        self.default   = kw.pop('default',   None)
-        super(Classified, self).__init__(*a, **kw)
-
     class Entry(object):
-        def __init__(self, p=0, f=0, n=None):
+        def __init__(self, label, p=0, f=0, n=None):
+            self.l = label
             self.p = p # interesting annotation
             self.n = list() if n is None else n # interesting annotation
             self.f = f # final result
+
         def __repr__(self):
-            return "E<{:f}> ({:f}, {})".format(self.f, self.p, self.n)
+            return "{}<{:f}>({:f}, {})".format(self.label, self.f, self.p, self.n)
+
+    def __init__(self, *a, **kw):
+        self.threshold = kw.pop('threshold', 0.1)
+        self.default   = kw.pop('default',   None)
+        super(Classified, self).__init__(*a, **kw)
 
     def __repr__(self):
         l = list()
@@ -29,18 +30,27 @@ class Classified(dict):
         return self.final.__format__(*a, **kw)
 
     @property
+    def v(self):
+        return [ v.f for v in self.values() ]
+
+    @property
+    def stat(self):
+        ret = dict()
+        ret['mean'] = m = sum(self.v) / len(self)
+        ret['var']  = v = sum([ (m-v)**2 for v in self.v ])
+        ret['ord']  = sorted([ (v.f, v.l) for v in self.values() ], reverse=True)
+        return ret
+
+    @property
     def final(self):
-        m = self.threshold
-        r = self.default
-        for k in self:
-            if self[k].f>m:
-                r = k
-                m = self[k].f
-        return r
+        s = self.stat
+        if (s['ord'][0][0] - s['ord'][1][0]) >= self.threshold:
+            return s['ord'][0][1]
+        return self.default
 
 class Classifier(NBayes):
     def __init__(self, *a, **kw):
-        self.threshold = kw.pop('threshold', 0.51)
+        self.threshold = kw.pop('threshold', 0.1)
         self.default   = kw.pop('default', None)
         super(Classifier, self).__init__(*a, **kw)
 
@@ -82,7 +92,7 @@ class Classifier(NBayes):
         for label in labels:
             n = [ self.prob_label_given_attr(label,a) for a in _1list(attr) ]
             db = len(n)*beta
-            res[label] = Classified.Entry(p=sum([ _n+beta for _n in n ])/(len(n)+db), n=n, f=0)
+            res[label] = Classified.Entry(label, p=sum([ _n+beta for _n in n ])/(len(n)+db), n=n, f=0)
         db = len(res)*beta
         s = sum([ r.p + beta for r in res.values() ]) + db
         for r in res.values():
