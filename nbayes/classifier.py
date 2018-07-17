@@ -25,6 +25,9 @@ class Classified(dict):
     def __str__(self):
         return self.final
 
+    def __format__(self, *a, **kw):
+        return self.final.__format__(*a, **kw)
+
     @property
     def final(self):
         m = self.threshold
