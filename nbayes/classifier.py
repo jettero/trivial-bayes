@@ -1,6 +1,6 @@
 
 from .util import _1list, PI
-from nbayes.nbayes import NBayes
+from .nbayes import NBayes
 
 class Classified(dict):
     class Entry(object):
@@ -22,7 +22,7 @@ class Classified(dict):
 
     @property
     def final(self):
-        m = -1
+        m = 0.51
         r = None
         for k in self:
             if self[k].f>m:
@@ -66,7 +66,7 @@ class Classifier(NBayes):
         for label in labels:
             n = [ self.prob_label_given_attr(label,a) for a in _1list(attr) ]
             db = len(n)*beta
-            res[label] = Classified.Entry(p=sum([ n+beta for n in n ])/(len(n)+db), n=n, f=0)
+            res[label] = Classified.Entry(p=sum([ _n+beta for _n in n ])/(len(n)+db), n=n, f=0)
         db = len(res)*beta
         s = sum([ r.p + beta for r in res.values() ]) + db
         for r in res.values():

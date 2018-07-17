@@ -5,7 +5,7 @@ ONE_LIST_OK = (set,list,tuple,dict)
 def _1list(x):
     if not isinstance(x, ONE_LIST_OK):
         return x
-    while len(x) == 1 and isinstance(x[0], ONE_LIST_OK):
+    while len(x) == 1 and isinstance(list(x)[0], ONE_LIST_OK):
         x = x[0]
     return iter(x)
 
