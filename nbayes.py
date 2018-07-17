@@ -1,9 +1,6 @@
 # coding: utf-8
 
-def _1list(x):
-    if len(x) == 1 and isinstance(x[0], (set,list,tuple,dict)):
-        return iter(x[0])
-    return iter(x)
+from util import _1list
 
 class Instance(object):
     def __init__(self, label, *attr):
@@ -121,3 +118,52 @@ class Classifier(object):
 
     def posterior(self,h,e): # P(E|H)/P(E) * P(H)
         return self.likelyhood_ratio(e,h) * self.prior(h)
+
+    def _classify(self, *attr, labels=None, beta=1e-8):
+        if labels is None:
+            labels = set([ x.label for x in self.corpus ])
+        labels = sorted(labels)
+
+        from util import PI, constrain_probabilities
+
+        # NOTE: Genest Zidek 1986; cf. Dietrich and List 2014 proposed more or
+        # less the below, but with weighted exponents on all p and (1-p) terms
+        # ... here, all our weights are 1. It's not clear where the weights
+        # would come from anyway. Supervised learning?
+        #
+        # anyway, this is genestzidek:
+        # PI([ p[i]**w[i] ]) / (PI([ p[i]**w[i] ]) + PI([ (1-p[i])**w[i] ])
+        # we just set all our weights to 1 (ie, ignore)
+        #
+        # [ cite https://stats.stackexchange.com/a/188554 ]
+        #
+        # Thinking the above is the way to go, and finding it doesn't work all
+        # that well, I kinda went my own way; though this is also based on the
+        # above stackexchange post.
+        #
+        # p[i] = sum([ n[i]+beta ])/(d + d*beta)
+        # f[i] = p[i]/( sum([ p[i] + beta ]) + d*beta )
+        #
+        # I liked this method because it averages the bayesian outputs p[i] and
+        # also puts the other bayesian outputs in an indirect relationship to
+        # the one being computed.
+        #
+        # -Paul
+
+        res = dict()
+        for label in labels:
+            n = [ self.prob_label_given_attr(label,a) for a in _1list(attr) ]
+            db = len(n)*beta
+            res[label] = {'p': sum([ n+beta for n in n ])/(len(n)+db), 'n': n}
+        db = len(res)*beta
+        s = sum([ r['p'] + beta for r in res.values() ]) + db
+        for r in res.values():
+            r['f'] = r['p']/s
+        return res
+
+    def classify(self, *attr, labels=None, beta=1e-4):
+        ret = dict()
+        res = self._classify(*attr, labels=labels, beta=beta)
+        for label in res:
+            ret[label] = res[label]['f']
+        return ret
