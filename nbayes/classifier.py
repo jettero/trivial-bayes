@@ -1,18 +1,6 @@
-# coding: utf-8
 
-from util import _1list
-
-class Instance(object):
-    def __init__(self, label, *attr):
-        self.label = label
-        self.attr  = set(_1list(attr))
-
-    def __repr__(self):
-        return "nbi({}: {})".format(self.label, self.attr)
-
-    @property
-    def lattr(self):
-        return set(self.label).union(self.attr)
+from .util import _1list, PI
+from .instance import Instance
 
 class Classifier(object):
     def __init__(self, *instances):
@@ -119,12 +107,12 @@ class Classifier(object):
     def posterior(self,h,e): # P(E|H)/P(E) * P(H)
         return self.likelyhood_ratio(e,h) * self.prior(h)
 
-    def _classify(self, *attr, labels=None, beta=1e-8):
+    def _classify(self, *attr, **kw): # labels=None, beta=1e-8):
+        beta   = kw.get('beta', 1e-8)
+        labels = kw.get('labels')
         if labels is None:
             labels = set([ x.label for x in self.corpus ])
         labels = sorted(labels)
-
-        from util import PI, constrain_probabilities
 
         # NOTE: Genest Zidek 1986; cf. Dietrich and List 2014 proposed more or
         # less the below, but with weighted exponents on all p and (1-p) terms
@@ -161,9 +149,9 @@ class Classifier(object):
             r['f'] = r['p']/s
         return res
 
-    def classify(self, *attr, labels=None, beta=1e-4):
+    def classify(self, *attr, **kw):
         ret = dict()
-        res = self._classify(*attr, labels=labels, beta=beta)
+        res = self._classify(*attr, **kw)
         for label in res:
             ret[label] = res[label]['f']
         return ret
