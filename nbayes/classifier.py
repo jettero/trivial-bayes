@@ -24,7 +24,7 @@ class Classified(dict):
         return "Classified({}) -> {}".format(', '.join(l), self)
 
     def __str__(self):
-        return self.final
+        return str(self.final)
 
     @property
     def v(self):
