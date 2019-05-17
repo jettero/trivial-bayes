@@ -4,13 +4,26 @@ from .nbayes import NBayes
 class Classified(dict):
     class Entry(object):
         def __init__(self, label, p=0, f=0, n=None):
+            if not isinstance(label, str):
+                raise TypeError("label must be a string")
+            try: p = float(p)
+            except: raise TypeError("p must be a float (or easily converted to one)")
+            try: f = float(f)
+            except: raise TypeError("f must be a float (or easily converted to one)")
+            try:
+                if n is None:
+                    n = list()
+                n = [ float(i) for i in n ]
+            except TypeError:
+                raise TypeError('n must be a list of floats (or easily converted to one)')
+
             self.l = label
             self.p = p # interesting annotation
             self.n = list() if n is None else n # interesting annotation
             self.f = f # final result
 
         def __repr__(self):
-            return "{}<{:f}>({:f}, {})".format(self.label, self.f, self.p, self.n)
+            return "{}<{:f}>({:f}, {})".format(self.l, self.f, self.p, self.n)
 
     def __init__(self, *a, **kw):
         self.threshold = kw.pop('threshold', 0.1)
@@ -36,6 +49,17 @@ class Classified(dict):
         ret['mean'] = m = sum(self.v) / len(self)
         ret['var']  = v = sum([ (m-v)**2 for v in self.v ])
         ret['ord']  = sorted([ (v.f, v.l) for v in self.values() ], reverse=True)
+        return ret
+
+    @property
+    def final_mvr(self):
+        s = self.stat
+        t = [ s['mean'] + (self.threshold + s['var'])*((1+i)/10.0) for i in range(10) ]
+        ret = dict()
+        for f,l in s['ord']:
+            for i,_t in enumerate(t):
+                if f >= _t:
+                    ret[l] = i
         return ret
 
     @property

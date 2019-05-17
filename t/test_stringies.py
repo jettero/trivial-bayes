@@ -6,6 +6,7 @@ def test_classifier(emails):
         find = i + ':'
         assert find in s
     cr = emails.classify('stringies', default='???')
+    assert str( cr.values() )
     assert str(cr)
     assert repr(cr)
     assert str(cr.final) == cr.final

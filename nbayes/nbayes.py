@@ -24,14 +24,16 @@ class NBayes(object):
         for i in _1list(instances):
             if isinstance(i, Instance):
                 self.add_instance(i)
-            else:
+            elif isinstance(i, (list,tuple)):
                 self.add_instance(*i)
+            else:
+                raise TypeError("arguments to add_instances() must be lists/tuples or Instances")
 
     def add_instance(self, instance_or_label, *attr):
         if isinstance(instance_or_label, Instance):
             self.corpus.append( instance_or_label )
 
-        else:
+        else: # Instance() has internall TypeError checking, no need to check here
             self.corpus.append( Instance(instance_or_label, *attr) )
 
     def prob_label(self,label): # P(A)
