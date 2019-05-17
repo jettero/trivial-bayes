@@ -2,7 +2,10 @@
 
 if [ $# -gt 0 ]
 then A=( "$@" )
-else A=( python2 python3 )
+else A=(
+    /usr/local/python/python2.7/bin/python
+    /usr/local/python/python3.6/bin/python
+    )
 fi
 
 x=0
