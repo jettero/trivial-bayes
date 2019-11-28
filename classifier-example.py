@@ -37,23 +37,24 @@ data  = [ Spam().instance for i in range(random.randint(7,20)) ]
 data += [  Ham().instance for i in range(random.randint(7,20)) ]
 
 corpus = nbayes.Classifier(data)
-
 print(corpus)
-for i in range(len(data)):
-    p_spam = corpus.prob_label_not_label_given_attr('spam','ham', data[i].attr)
 
-    ok = result = 'classified correctly'
-    if p_spam >= 0.5 and data[i].label == 'ham':
-        result = 'false positive'
-    if p_spam < 0.5 and data[i].label == 'spam':
-        result = 'false negative'
+# for i in range(len(data)):
+#     p_spam = corpus.prob_label_not_label_given_attr('spam','ham', data[i].attr)
+# 
+#     ok = result = 'classified correctly'
+#     if p_spam >= 0.5 and data[i].label == 'ham':
+#         result = 'false positive'
+#     if p_spam < 0.5 and data[i].label == 'spam':
+#         result = 'false negative'
+# 
+#     moar = result
+#     if result != ok:
+#         moar += ' ' + str(data[i].attr)
+#     print("P(spam|data[{:2}]) = {:0.4f} {}".format(i, p_spam, moar))
 
-    moar = result
-    if result != ok:
-        moar += ' ' + str(data[i].attr)
-    print("P(spam|data[{:2}]) = {:0.4f} {}".format(i, p_spam, moar))
+# print("\nmethod 2")
 
-print("\nmethod 2")
 for i in range(len(data)):
     res = corpus.classify( data[i].attr )
-    print("R(data[{:2}]) = {:4} (actual: {:4})".format( i, res, data[i].label ))
+    print("R(data[{}]) = {} (actual: {})".format( i, res, data[i].label ))
