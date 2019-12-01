@@ -78,26 +78,30 @@ class NBayes(object):
     # probability hypothesis is true given evidence
     # is the prior probability P(H) times the likelyhood ratio P(E|H)/P(E)
 
-    def prob_lattr(self,lattr): # P(H) or P(E)
+    def prob_lattr(self, lattr): # P(H) or P(E)
         if not self.corpus:
             return 0.0
 
         c = 0.0
         for i in self.corpus:
-            if lattr in i.lattr:
-                c += 1.0
+            ilattr = i.lattr
+            for l in _iter(lattr):
+                if l in ilattr:
+                    c += 1.0
         return c / len(self.corpus)
     prior = prob_lattr
 
-    def prob_lattr_given_lattr(self,e,h): # P(E|H)
+    def prob_lattr_given_lattr(self, e,h): # P(E|H)
         ic = 0
         ac = 0
         for i in self.corpus:
-            l = i.lattr
-            if h in l:
-                ic += 1
-                if e in l:
-                    ac += 1
+            ilattr = i.lattr
+            for _h in _iter(h):
+                if _h in ilattr:
+                    ic += 1
+                    for _e in _iter(e):
+                        if e in ilattr:
+                            ac += 1
         if ic == 0:
             return 0
         return float(ac) / ic
@@ -105,5 +109,11 @@ class NBayes(object):
     def likelyhood_ratio(self, e,h): # P(E|H)/P(E)
         return self.prob_lattr_given_lattr(e,h) / self.prob_lattr(e)
 
-    def posterior(self,h,e): # P(E|H)/P(E) * P(H)
+    def posterior(self, h,e): # P(H|E) = P(E|H)/P(E) * P(H)
         return self.likelyhood_ratio(e,h) * self.prior(h)
+
+def _iter(x):
+    if isinstance(x, (dict,list,tuple,set,type(_ for _ in (1,)))):
+        yield from x
+    else:
+        yield x
