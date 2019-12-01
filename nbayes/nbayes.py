@@ -107,10 +107,14 @@ class NBayes(object):
         return float(ac) / ic
 
     def likelyhood_ratio(self, e,h): # P(E|H)/P(E)
-        return self.prob_lattr_given_lattr(e,h) / self.prob_lattr(e)
+        b = self.prob_lattr(e)
+        if b == 0:
+            return 0
+        return self.prob_lattr_given_lattr(e,h) / b
 
     def posterior(self, h,e): # P(H|E) = P(E|H)/P(E) * P(H)
         return self.likelyhood_ratio(e,h) * self.prior(h)
+
 
 def _iter(x):
     if isinstance(x, (dict,list,tuple,set,type(_ for _ in (1,)))):
