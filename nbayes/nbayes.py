@@ -57,15 +57,15 @@ class NBayes(object):
         return c / len(self.corpus)
 
     def prob_attr_given_label(self, label, attr):  # P(B|A) aka P(attr|label)
-        ic = 0
+        ic = 0.0
         ac = 0.0
         for i in self.corpus:
             if i.label == label:
-                ic += 1
+                ic += 1.0
                 if attr in i.attr:
                     ac += 1.0
-        if ic == 0:
-            return 0
+        if ic == 0.0:
+            return 0.0
         return ac / ic
 
     def prob_label_given_attr(self, label, attr): # P(A|B) aka P(label|attr)
