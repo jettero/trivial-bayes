@@ -1,6 +1,8 @@
 from .util import _1list
 from .instance import Instance
 
+ZERO_COUNT = 0.0
+
 class NBayes(object):
     def __init__(self, *instances):
         self.corpus = []
@@ -40,7 +42,7 @@ class NBayes(object):
         if not self.corpus:
             return 0.0
 
-        c = 0.0
+        c = ZERO_COUNT
         for i in self.corpus:
             if i.label == label:
                 c += 1.0
@@ -50,15 +52,14 @@ class NBayes(object):
         if not self.corpus:
             return 0.0
 
-        c = 0.0
+        c = ZERO_COUNT
         for i in self.corpus:
             if attr in i.attr:
                 c += 1.0
         return c / len(self.corpus)
 
     def prob_attr_given_label(self, label, attr):  # P(B|A) aka P(attr|label)
-        ic = 0.0
-        ac = 0.0
+        ic = ac = ZERO_COUNT
         for i in self.corpus:
             if i.label == label:
                 ic += 1.0
@@ -82,7 +83,7 @@ class NBayes(object):
         if not self.corpus:
             return 0.0
 
-        c = 0.0
+        c = ZERO_COUNT
         for i in self.corpus:
             ilattr = i.lattr
             for l in _iter(lattr):
@@ -94,8 +95,7 @@ class NBayes(object):
     prior = prob_lattr
 
     def prob_lattr_given_lattr(self, e,h, inverse=False): # P(E|H)
-        ic = 0
-        ac = 0
+        ic = ac = ZERO_COUNT
         for i in self.corpus:
             ilattr = i.lattr
             for _h in _iter(h):
