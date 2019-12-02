@@ -80,15 +80,13 @@ class NBayes(object):
 
     def prob_lattr(self, lattr, inverse=False): # P(H) or P(E)
         if not self.corpus:
-            if inverse:
-                return 1
             return 0.0
 
         c = 0.0
         for i in self.corpus:
             ilattr = i.lattr
             for l in _iter(lattr):
-                if l in ilattr:
+                if l not in ilattr if inverse else l in ilattr:
                     c += 1.0
         if inverse:
             return 1 - (c / len(self.corpus))
@@ -101,17 +99,14 @@ class NBayes(object):
         for i in self.corpus:
             ilattr = i.lattr
             for _h in _iter(h):
-                if _h in ilattr:
+                if _h not in ilattr if inverse else _h in ilattr:
                     ic += 1
                     for _e in _iter(e):
                         if _e in ilattr:
                             ac += 1
+                            break
         if ic == 0:
-            if inverse:
-                return 1
             return 0
-        if inverse:
-            return 1 - (float(ac) / ic)
         return float(ac) / ic
 
     def likelyhood_ratio(self, e,h, inverse=False): # P(E|H)/P(E)
