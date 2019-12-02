@@ -78,8 +78,10 @@ class NBayes(object):
     # probability hypothesis is true given evidence
     # is the prior probability P(H) times the likelyhood ratio P(E|H)/P(E)
 
-    def prob_lattr(self, lattr): # P(H) or P(E)
+    def prob_lattr(self, lattr, inverse=False): # P(H) or P(E)
         if not self.corpus:
+            if inverse:
+                return 1
             return 0.0
 
         c = 0.0
@@ -88,10 +90,12 @@ class NBayes(object):
             for l in _iter(lattr):
                 if l in ilattr:
                     c += 1.0
+        if inverse:
+            return 1 - (c / len(self.corpus))
         return c / len(self.corpus)
     prior = prob_lattr
 
-    def prob_lattr_given_lattr(self, e,h): # P(E|H)
+    def prob_lattr_given_lattr(self, e,h, inverse=False): # P(E|H)
         ic = 0
         ac = 0
         for i in self.corpus:
@@ -103,17 +107,21 @@ class NBayes(object):
                         if _e in ilattr:
                             ac += 1
         if ic == 0:
+            if inverse:
+                return 1
             return 0
+        if inverse:
+            return 1 - (float(ac) / ic)
         return float(ac) / ic
 
-    def likelyhood_ratio(self, e,h): # P(E|H)/P(E)
-        b = self.prob_lattr(e)
+    def likelyhood_ratio(self, e,h, inverse=False): # P(E|H)/P(E)
+        b = self.prob_lattr(e, inverse=inverse)
         if b == 0:
             return 0
-        return self.prob_lattr_given_lattr(e,h) / b
+        return self.prob_lattr_given_lattr(e,h, inverse=inverse) / b
 
-    def posterior(self, h,e): # P(H|E) = P(E|H)/P(E) * P(H)
-        return self.likelyhood_ratio(e,h) * self.prior(h)
+    def posterior(self, h,e, inverse=False): # P(H|E) = P(E|H)/P(E) * P(H)
+        return self.likelyhood_ratio(e,h, inverse=inverse) * self.prior(h, inverse=inverse)
 
 
 def _iter(x):
