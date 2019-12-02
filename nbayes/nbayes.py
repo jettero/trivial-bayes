@@ -89,8 +89,6 @@ class NBayes(object):
             for l in _iter(lattr):
                 if l not in ilattr if inverse else l in ilattr:
                     c += 1.0
-        if inverse:
-            return 1 - (c / len(self.corpus))
         return c / len(self.corpus)
     prior = prob_lattr
 
