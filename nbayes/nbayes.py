@@ -100,7 +100,7 @@ class NBayes(object):
                 if _h in ilattr:
                     ic += 1
                     for _e in _iter(e):
-                        if e in ilattr:
+                        if _e in ilattr:
                             ac += 1
         if ic == 0:
             return 0
