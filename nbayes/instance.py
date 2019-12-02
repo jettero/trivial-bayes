@@ -16,4 +16,4 @@ class Instance(object):
 
     @property
     def lattr(self):
-        return set(self.label).union(self.attr)
+        return set([self.label]).union(self.attr)
