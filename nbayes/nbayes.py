@@ -104,6 +104,7 @@ class NBayes(object):
                     for _e in _iter(e):
                         if _e in ilattr:
                             ac += 1
+                            break
         if ic == 0:
             return 0
         return float(ac) / ic
