@@ -19,6 +19,12 @@ class PyTest(TestCommand):
         sys.exit(errno)
 
 setup(name='nbayes',
+    use_scm_version = {
+        'write_to': 'nbayes/version.py',
+        'tag_regex': r'^(?P<prefix>v)(?P<version>\d+\.\d+\.\d+)(?P<suffix>.*)?$',
+        # NOTE: use ./setup.py --version to regenerate version.py and print the
+        # computed version
+    },
     version       =  '1.0',
     description   =  'My boring Bayesian computer',
     author        =  'Paul Miller',
