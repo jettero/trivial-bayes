@@ -90,7 +90,9 @@ class NBayes(object):
                 if l not in ilattr if inverse else l in ilattr:
                     c += 1.0
         return c / len(self.corpus)
-    prior = prob_lattr
+
+    def prior(self, lattr, inverse=False): # P(H)
+        return self.prob_lattr(lattr, inverse=inverse)
 
     def prob_lattr_given_lattr(self, e,h, inverse=False): # P(E|H)
         ic = ac = ZERO_COUNT
@@ -106,6 +108,9 @@ class NBayes(object):
         if ic == 0:
             return 0
         return float(ac) / ic
+
+    def likelyhood(self, e,h, inverse=False):
+        return self.prob_lattr_given_lattr(e,h, inverse=inverse)
 
     def likelyhood_ratio(self, e,h, inverse=False): # P(E|H)/P(E)
         b = self.prob_lattr(e, inverse=inverse)
