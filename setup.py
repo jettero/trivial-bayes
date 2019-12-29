@@ -25,13 +25,15 @@ setup(name='nbayes',
         # NOTE: use ./setup.py --version to regenerate version.py and print the
         # computed version
     },
-    version       =  '1.0',
-    description   =  'My boring Bayesian computer',
-    author        =  'Paul Miller',
-    author_email  = 'paul@jettero.pl',
-    url           = 'https://github.com/jettero/trivial-bayes',
-    tests_require = ['pytest'],
-    packages      = find_packages(),
-    cmdclass      = {'test': PyTest},
+    version          =  '1.0',
+    description      =  'My boring Bayesian computer',
+    author           =  'Paul Miller',
+    author_email     = 'paul@jettero.pl',
+    url              = 'https://github.com/jettero/trivial-bayes',
+    packages         = find_packages(),
+    cmdclass         = { 'test': PyTest },
+    setup_requires   = [ 'setuptools_scm' ],
+    install_requires = [ 'tabulate' ],
+    tests_require    = [ 'pytest', 'tabulate' ],
 )
 
