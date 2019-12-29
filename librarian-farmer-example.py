@@ -27,17 +27,17 @@ for i in range(200):
 
 c = nbayes.Classifier(*people)
 
-print('prior P(H):          {:f}'.format( c.prior('librarian') )) # alias for c.prob_lattr
+print('prior P(H):          {:f}'.format( c.prior('librarian') ))
 print('(1/21):              {:f}'.format( 1/21.0 ))
 print('likelyhood P(E|H):   {:f}'.format( c.likelyhood('meek and tidy', 'librarian') ))
-print('P(¬H) (is farmer):   {:f}'.format( c.prob_lattr('farmer') ))
-print('P(¬H) (!librarian):  {:f}'.format( c.prob_lattr('librarian', inverse=True) )) # same
+print('P(¬H) (is farmer):   {:f}'.format( c.prior('farmer') ))
+print('P(¬H) (!librarian):  {:f}'.format( c.prior('librarian', inverse=True) )) # same
 print('P(E|¬H):             {:f}'.format( c.likelyhood('meek and tidy', 'farmer') ))
 print('a) P(H)P(E|H):       {:f}'.format( c.prior('librarian') * c.likelyhood('meek and tidy', 'librarian') ))
-print('b) P(¬H)P(E|¬H):     {:f}'.format( c.prob_lattr('farmer') * c.likelyhood('meek and tidy', 'farmer') ))
+print('b) P(¬H)P(E|¬H):     {:f}'.format( c.prior('farmer') * c.likelyhood('meek and tidy', 'farmer') ))
 print('a+b:                 {:f}'.format( c.prior('librarian') * c.likelyhood('meek and tidy', 'librarian') +
     c.prob_lattr('farmer') * c.likelyhood('meek and tidy', 'farmer') ))
-print('c) P(E):             {:f}'.format( c.prob_lattr('meek and tidy') ))
+print('c) P(E):             {:f}'.format( c.prior('meek and tidy') ))
 print('a/c:                 {:f}'.format( c.prior('librarian') * c.likelyhood('meek and tidy', 'librarian') /
     c.prob_lattr('meek and tidy') ))
 print('posterior P(H|E):    {:f}'.format( c.posterior('librarian', 'meek and tidy') ))
